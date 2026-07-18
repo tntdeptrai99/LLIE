@@ -1,0 +1,74 @@
+experiment:
+  name: a1_128_charbonnier
+  model: A1
+  description: "Student-S baseline with Dark Guidance OFF and Charbonnier loss."
+
+seed: 42
+
+resolution:
+  mode: speed_baseline
+  size: 128
+
+dataset:
+  train:
+    - LOL
+    - LOL-v2 Real
+  test:
+    - LOL official test
+    - LOL-v2 Real official test
+  camera_split: scene
+  split_seed: 42
+
+preprocessing:
+  color_space: RGB
+  range: [0, 1]
+  train_crop: exact_paired_crop
+  train_crop_size: 128
+  validation_test_transform: center_square_crop_then_resize
+  synthetic_low_light_source: ground_truth
+
+augmentation:
+  horizontal_flip_p: 0.5
+  vertical_flip_p: 0.2
+  rotations: [0, 90, 180, 270]
+  exposure_alpha: [0.4, 0.9]
+  gamma: [1.2, 2.4]
+  white_balance_scale: [0.9, 1.1]
+  read_noise_sigma: [0.0, 0.03]
+  synthetic_max_epoch_ratio: 0.30
+
+model:
+  student: shallow_depthwise_gain_residual
+  dark_guidance: false
+  channels:
+    stem: 8
+    stage1: 8
+    stage2: 16
+    stage3: 8
+  blocks:
+    stage1: 2
+    stage2: 3
+    bottleneck: 2
+    stage3: 1
+  output:
+    type: gain_residual
+    gain_range: [1.0, 2.0]
+    residual_range: [-0.2, 0.2]
+
+loss:
+  charbonnier: 1.0
+  ssim: 0.0
+
+metrics:
+  - rgb_psnr
+  - rgb_ssim
+  - lpips_alexnet
+  - ciede2000
+
+export:
+  target: onnx_stm32cube_ai
+  quantization: none_for_a1_fp32
+
+notes:
+  - "A1 must keep Dark Guidance OFF."
+  - "Run dummy ONNX/Cube.AI feasibility before long training."

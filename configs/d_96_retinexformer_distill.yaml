@@ -1,0 +1,106 @@
+experiment:
+  name: d_96_retinexformer_distill
+  model: D-96
+  description: "Paper-reference 96x96 Retinexformer-distilled Ghost-ESP gain/residual student."
+
+seed: 42
+
+resolution:
+  mode: paper_reference
+  size: 96
+
+dataset:
+  train:
+    - LOL
+    - LOL-v2 Real
+  test:
+    - LOL official test
+    - LOL-v2 Real official test
+  camera_split: scene
+  split_seed: 42
+
+preprocessing:
+  color_space: RGB
+  range: [0, 1]
+  train_crop: exact_paired_crop
+  train_crop_size: 96
+  validation_test_transform: center_square_crop_then_resize
+  synthetic_low_light_source: ground_truth
+
+augmentation:
+  horizontal_flip_p: 0.5
+  vertical_flip_p: 0.2
+  rotations: [0, 90, 180, 270]
+  exposure_alpha: [0.4, 0.9]
+  gamma: [1.2, 2.4]
+  white_balance_scale: [0.9, 1.1]
+  read_noise_sigma: [0.0, 0.03]
+  synthetic_max_epoch_ratio: 0.30
+
+teacher:
+  name: Retinexformer
+  use_precomputed_outputs: true
+  distill_targets:
+    - enhanced_rgb
+    - edge
+    - color
+
+model:
+  student: d96_ghost_esp_gain_residual
+  dark_guidance: true
+  channels:
+    stem: 8
+    bottleneck: 16
+  blocks:
+    ghost_esp: 4
+    refine: 1
+  output:
+    type: gain_residual
+    gain_range: [1.0, 2.0]
+    residual_range: [-0.2, 0.2]
+    residual_activation: relu6_centered
+
+loss:
+  charbonnier: 1.0
+  ssim: 0.2
+  edge: 0.1
+  color: 0.05
+  output_distillation: 0.5
+  edge_distillation: 0.03
+  adaptive_dark: 0.2
+  adaptive_dark_alpha: 1.0
+
+training:
+  stages:
+    - supervised_charbonnier_ssim
+    - add_edge_color
+    - add_retinexformer_output_distillation
+    - adaptive_dark_finetune
+  optimizer: adamw
+  lr: 0.0003
+  batch_size: 64
+  epochs: 80
+
+metrics:
+  - rgb_psnr
+  - rgb_ssim
+  - lpips_alexnet
+  - ciede2000
+
+export:
+  target: onnx_stm32cube_ai
+  input_shape: [1, 3, 96, 96]
+  quantization: qat_int8
+  first_gate: dummy_onnx_import_before_long_training
+
+paper_reference:
+  baseline: Ghost-ESP ESP32-S3
+  resolution: 96
+  lol_psnr: 19.18
+  lol_ssim: 0.852
+  esp32_s3_latency_ms: 277
+
+notes:
+  - "D-96 is the paper-reference mode for fair comparison with the ESP32-S3 Ghost-ESP paper."
+  - "Run dummy ONNX/Cube.AI import before long training."
+  - "Use 128x128 later as the STM32 deployment candidate after D-96 passes the paper-reference gate."

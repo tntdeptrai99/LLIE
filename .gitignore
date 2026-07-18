@@ -1,0 +1,62 @@
+# Local Codex / agent state
+.agents/
+.codex/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data, temporary files, and generated outputs
+data/
+splits/
+tmp/
+reports/
+experiments/
+*.zip
+*.7z
+*.rar
+
+# ML artifacts
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.h5
+*.ckpt
+wandb/
+runs/
+mlruns/
+
+# Embedded / STM32 build artifacts
+**/Debug/
+**/Release/
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.su
+*.d
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,67 @@
+experiment:
+  name: d_96_tiny_bn_retinexformer_distill
+  model: D-96-Tiny-BN
+  description: "RAM-first 96x96 Retinexformer-distilled student with Ghost/ESP blocks, depthwise separable conv, ReLU6, and BN folding."
+
+seed: 42
+
+resolution:
+  mode: paper_reference_ram_first
+  size: 96
+
+model:
+  student: d96_tiny_bn_ghost_esp_gain_residual
+  base_channels: 4
+  mid_channels: 8
+  ghost_esp_blocks: 3
+  dark_guidance: true
+  operators:
+    train:
+      - Conv2D
+      - BatchNorm2D
+      - DepthwiseConv2D
+      - ReLU6
+      - Add
+      - Concat
+      - ResizeNearest
+      - Clip
+    export_after_bn_folding:
+      - Conv2D
+      - DepthwiseConv2D
+      - ReLU6
+      - Add
+      - Concat
+      - ResizeNearest
+      - Clip
+      - Mul
+      - Div
+      - Sub
+  output:
+    type: gain_residual
+    gain_range: [1.0, 2.0]
+    residual_range: [-0.2, 0.2]
+    residual_activation: relu6_centered
+
+teacher:
+  name: Retinexformer
+  use_precomputed_outputs: true
+
+loss:
+  charbonnier: 1.0
+  ssim: 0.2
+  edge: 0.1
+  color: 0.05
+  output_distillation: 0.5
+  edge_distillation: 0.03
+  adaptive_dark: 0.2
+
+export:
+  target: onnx_stm32cube_ai
+  input_shape: [1, 3, 96, 96]
+  bn_folding: required_before_onnx
+  dummy_onnx: stm32/onnx/d_96_tiny_bn_fused_dummy.onnx
+  cube_ai_gate: "Analyze must pass RAM/Flash constraints before long training."
+
+notes:
+  - "This variant is designed after the first D-96 Cube.AI report showed FP32 activation RAM around 1.17 MiB."
+  - "Use this as the next STM32Cube.AI feasibility candidate before training Retinexformer distillation."

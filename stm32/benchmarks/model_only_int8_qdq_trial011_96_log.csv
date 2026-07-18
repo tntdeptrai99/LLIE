@@ -1,0 +1,2 @@
+date,board,cpu_hz,build,optimization,icache,dcache,activation_memory,model,precision,resolution,warmup_runs,measured_runs,mean_ms,median_ms,p95_ms,min_ms,max_ms,std_ms,fps_mean,total_flash_b,weights_b,total_ram_b,activations_b,input_b,output_b,notes
+,,,,,,,,ghost_esp_dark_w12_m24_gain3_res035_optuna_trial011_best_qdq,INT8_QDQ,96x96,20,200,,,,,,,,,,,,,
