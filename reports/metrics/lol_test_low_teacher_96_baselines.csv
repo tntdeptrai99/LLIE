@@ -1,0 +1,16 @@
+index,low_path,teacher_path,low_psnr,low_ssim,teacher_psnr,teacher_ssim
+0,data\raw\LOL\val\low\1.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_1.png,8.224480,0.155991,19.953577,0.897746
+1,data\raw\LOL\val\low\111.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_111.png,5.804290,0.123039,23.555004,0.973565
+2,data\raw\LOL\val\low\146.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_146.png,6.397713,0.238937,27.941494,0.960232
+3,data\raw\LOL\val\low\179.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_179.png,12.313437,0.398259,33.735227,0.978853
+4,data\raw\LOL\val\low\22.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_22.png,6.066145,0.127197,27.614725,0.976479
+5,data\raw\LOL\val\low\23.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_23.png,4.574096,0.040526,26.993165,0.973510
+6,data\raw\LOL\val\low\493.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_493.png,10.876442,0.101234,25.175723,0.922453
+7,data\raw\LOL\val\low\547.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_547.png,8.511755,0.147671,23.899169,0.965974
+8,data\raw\LOL\val\low\55.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_55.png,4.982390,0.034623,21.957847,0.958193
+9,data\raw\LOL\val\low\665.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_665.png,6.821781,0.052890,29.063464,0.968722
+10,data\raw\LOL\val\low\669.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_669.png,6.577065,0.142584,28.644762,0.969440
+11,data\raw\LOL\val\low\748.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_748.png,9.788795,0.152080,30.012202,0.969887
+12,data\raw\LOL\val\low\778.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_778.png,8.697099,0.051580,24.529763,0.937648
+13,data\raw\LOL\val\low\780.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_780.png,12.573923,0.276438,30.971452,0.859987
+14,data\raw\LOL\val\low\79.png,data\teacher\retinexformer_rgb\lol_test\data_raw_LOL_val_low_79.png,5.320395,0.127187,27.681450,0.991889

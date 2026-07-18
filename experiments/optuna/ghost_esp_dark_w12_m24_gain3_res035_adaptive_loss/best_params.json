@@ -1,0 +1,32 @@
+{
+  "study_name": "ghost_esp_dark_w12_m24_gain3_res035_adaptive_loss",
+  "best_value": 21.418660308205734,
+  "best_trial": 11,
+  "best_params": {
+    "lr": 0.0004642590120845409,
+    "kd_weight": 0.41490731938154524,
+    "kd_dark_gain": 0.319409859084582,
+    "ssim_weight": 0.10125968807716974,
+    "ssim_dark_gain": 0.4015400599426101,
+    "teacher_ssim_weight": 0.05969817766496116,
+    "edge_kd_weight": 0.023192027082135695,
+    "edge_gt_weight": 0.024091660352169263,
+    "color_gt_weight": 0.05533961383269607,
+    "adaptive_dark_weight": 0.0053751687537937284,
+    "adaptive_dark_base": 0.3990482233887346,
+    "adaptive_dark_gain": 1.2795608236561056,
+    "adaptive_dark_gamma": 0.6383196982363735,
+    "adaptive_bright_gamma": 1.9785593078550503,
+    "adaptive_bright_target": "low"
+  },
+  "best_user_attrs": {
+    "best_psnr": 17.251503790700088,
+    "best_psnr_score": 21.418660308205734,
+    "best_ssim": 0.8334313035011292,
+    "best_ssim_at_best_psnr": 0.8334313035011292,
+    "best_ssim_psnr": 17.251503790700088,
+    "best_ssim_score": 21.418660308205734,
+    "selected_checkpoint": "best.pt",
+    "trial_dir": "experiments\\optuna\\ghost_esp_dark_w12_m24_gain3_res035_adaptive_loss\\trial_011"
+  }
+}

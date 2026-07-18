@@ -25,8 +25,6 @@ pip-wheel-metadata/
 data/
 splits/
 tmp/
-reports/
-experiments/
 *.zip
 *.7z
 *.rar
@@ -41,6 +39,12 @@ experiments/
 wandb/
 runs/
 mlruns/
+
+# Keep curated experiment and report artifacts in the repository.
+!experiments/
+!experiments/**
+!reports/
+!reports/**
 
 # Embedded / STM32 build artifacts
 **/Debug/

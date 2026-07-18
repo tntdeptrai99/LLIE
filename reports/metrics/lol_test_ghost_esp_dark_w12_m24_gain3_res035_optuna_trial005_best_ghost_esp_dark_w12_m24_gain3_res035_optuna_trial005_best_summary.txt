@@ -1,0 +1,4 @@
+name=lol_test_ghost_esp_dark_w12_m24_gain3_res035_optuna_trial005_best
+count=15
+psnr=19.0181
+ssim=0.822843

@@ -1,0 +1,4 @@
+name=lol_test_ghost_esp_dark_optuna_trial003_best_ssim
+count=15
+psnr=15.0725
+ssim=0.724715

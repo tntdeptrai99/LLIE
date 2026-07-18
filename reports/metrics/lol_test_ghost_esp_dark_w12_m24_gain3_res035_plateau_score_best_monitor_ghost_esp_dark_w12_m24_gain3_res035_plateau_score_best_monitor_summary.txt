@@ -1,0 +1,4 @@
+name=lol_test_ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best_monitor
+count=15
+psnr=19.6221
+ssim=0.843353

@@ -1,0 +1,4 @@
+name=lol_test_ghost_esp_dark_w12_m24_gain3_res035_trial011_long80_lr1e4_best
+count=15
+psnr=19.4425
+ssim=0.841305

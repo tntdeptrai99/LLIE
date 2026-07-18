@@ -1,0 +1,29 @@
+{
+  "study_name": "ghost_esp_dark_adaptive_loss",
+  "best_value": 20.552477780729685,
+  "best_trial": 3,
+  "best_params": {
+    "lr": 0.00017606794027339345,
+    "kd_weight": 0.2554563366576581,
+    "kd_dark_gain": 1.1635015533174702,
+    "ssim_weight": 0.2937832058402786,
+    "ssim_dark_gain": 0.9394989415641891,
+    "teacher_ssim_weight": 0.09158618803421191,
+    "edge_kd_weight": 0.02989499894055426,
+    "edge_gt_weight": 0.11218742350231167,
+    "color_gt_weight": 0.02884925020519195,
+    "adaptive_dark_weight": 0.008609082809111277,
+    "adaptive_dark_base": 0.02713637334632284,
+    "adaptive_dark_gain": 0.920528529221223,
+    "adaptive_dark_gamma": 1.2218836635031711,
+    "adaptive_bright_gamma": 0.9798886444834543,
+    "adaptive_bright_target": "low"
+  },
+  "best_user_attrs": {
+    "best_psnr": 13.43182856217042,
+    "best_ssim": 0.7173783183097839,
+    "best_ssim_at_best_psnr": 0.7120649218559265,
+    "best_ssim_psnr": 13.412763723148753,
+    "trial_dir": "experiments\\optuna\\ghost_esp_dark_adaptive_loss\\trial_003"
+  }
+}
