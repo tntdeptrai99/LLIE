@@ -1,0 +1,6 @@
+model,artifact,status,params,model_size_fp32_kb,model_size_int8_kb,psnr,ssim,mae,inference_time_ms_pc,note
+Ghost-ESP current deployed ONNX,D:\LLIE_Project\stm32\onnx\ghost_esp_dark_w12_m24_enhanced_rgb_u8out_tail_simplified_nchw.onnx,measured,5130,,70.79,14.5200,0.7170,0.188023,2.2275,Current available deployed model.
+Conv2D,,missing_artifact,,,,,,,,No ONNX/checkpoint with this exact architecture is currently present after cleanup.
+Separable,,missing_artifact,,,,,,,,No ONNX/checkpoint with this exact architecture is currently present after cleanup.
+GhostSep,,missing_artifact,,,,,,,,No ONNX/checkpoint with this exact architecture is currently present after cleanup.
+Ghost-ESP + Distill,,missing_artifact,,,,,,,,No ONNX/checkpoint with this exact architecture is currently present after cleanup.

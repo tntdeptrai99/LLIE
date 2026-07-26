@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "v": 7305,
+    "frame": 1,
+    "in_layout": 1,
+    "out_layout": 1,
+    "in_len": 27648,
+    "out0_len": 27648,
+    "out1_len": 0,
+    "in_off": 270720,
+    "out0_off": 4294967295,
+    "out1_off": 4294967295
+  },
+  "metrics": [
+    {
+      "name": "input_preprocess",
+      "brightness_mean": 38.852962493896484,
+      "brightness_median": 32.91200256347656,
+      "contrast_std": 31.21818733215332,
+      "contrast_p01_p99": 148.6959981918335,
+      "saturation_mean": 0.5018021464347839,
+      "saturation_median": 0.4285714030265808,
+      "sharpness_laplacian_abs_mean": 13.807173728942871,
+      "sharpness_laplacian_variance": 483.00299072265625,
+      "clip_0_ratio_rgb": 0.11993634259259259,
+      "clip_255_ratio_rgb": 0.0,
+      "clip_0_ratio_luma": 0.0,
+      "clip_255_ratio_luma": 0.0,
+      "min_rgb": 0.0,
+      "max_rgb": 188.0
+    },
+    {
+      "name": "ai_output",
+      "brightness_mean": 101.9518051147461,
+      "brightness_median": 102.04399871826172,
+      "contrast_std": 48.14411926269531,
+      "contrast_p01_p99": 203.76055259704594,
+      "saturation_mean": 0.2609754502773285,
+      "saturation_median": 0.24353399872779846,
+      "sharpness_laplacian_abs_mean": 22.00627326965332,
+      "sharpness_laplacian_variance": 1020.6727294921875,
+      "clip_0_ratio_rgb": 0.0,
+      "clip_255_ratio_rgb": 0.00390625,
+      "clip_0_ratio_luma": 0.0,
+      "clip_255_ratio_luma": 0.002170138888888889,
+      "min_rgb": 19.0,
+      "max_rgb": 255.0
+    }
+  ]
+}
