@@ -46,6 +46,16 @@ mlruns/
 !reports/
 !reports/**
 
+# But do not push heavyweight experiment databases/checkpoints or intermediate Word drafts.
+experiments/**/*.pt
+experiments/**/*.pth
+experiments/**/*.ckpt
+experiments/**/*.db
+reports/benchmarks/**/*.docx
+!reports/benchmarks/final_comprehensive_20260726/bao_cao_hoan_chinh_darkghost_espnet_train_pc_board_20260726.docx
+reports/benchmarks/**/docx_render/
+reports/benchmarks/**/rendered_pages/
+
 # Embedded / STM32 build artifacts
 **/Debug/
 **/Release/

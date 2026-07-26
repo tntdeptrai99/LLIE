@@ -1,0 +1,2 @@
+﻿epoch,train_loss,val_psnr,val_ssim,val_mae,lr,epoch_seconds
+1,0.48389933,6.199214,0.08454646,0.43533856,0.0000000000,0.379

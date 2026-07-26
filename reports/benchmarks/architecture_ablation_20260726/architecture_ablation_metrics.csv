@@ -1,0 +1,6 @@
+architecture,params,model_size_fp32_bytes,model_size_fp32_kib,model_size_int8_est_bytes,model_size_int8_est_kib,onnx_deploy_size_kib,macs,latency_ms_mean,latency_ms_median,latency_ms_p95,psnr,ssim,mae,quality_split,quality_source,note
+Conv2D,16182,64728,63.21,16182,15.80,,46540800,4.0202,3.9576,5.2387,,,,,missing_checkpoint,Full 3x3 conv residual blocks; cost-only benchmark.
+Separable,3486,13944,13.62,3486,3.40,,10450944,3.3884,3.1033,4.7253,,,,,missing_checkpoint,Depthwise separable residual blocks; cost-only benchmark.
+GhostSep,2594,10376,10.13,2594,2.53,,8441856,3.4890,3.3240,4.6946,,,,,missing_checkpoint,Ghost-style separable block without dark-map guidance; cost-only benchmark.
+Ghost-ESP,2706,10824,10.57,2706,2.64,,8441856,3.6049,3.4709,4.9214,,,,,missing_checkpoint,Ghost-ESP block without dark-map guidance; cost-only benchmark.
+DarkGhost-ESPNet,2706,10824,10.57,2706,2.64,70.79,9068544,3.6676,3.5640,5.0200,19.4780,0.7858,0.111396,LOL_v2_Real_val,measured_current_onnx,Current project model family with dark-map guidance; quality from deployed ONNX benchmark.

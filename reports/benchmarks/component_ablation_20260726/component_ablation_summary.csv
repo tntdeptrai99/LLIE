@@ -1,0 +1,6 @@
+variant,source_model,count,epoch,psnr,ssim,notes
+No Optuna (manual weights),lol_test_ghost_esp_dark_w12_m24_gain3_res035_96_best,15,80,18.8806,0.819337,Restored long run; uses teacher + adaptive dark-map loss but manual weights.
++ Optuna trial011,lol_test_ghost_esp_dark_w12_m24_gain3_res035_optuna_trial011_best,15,9+pretrained,19.2671,0.833423,Restored Optuna-selected loss weights.
++ Optuna + long refine / proposed,lol_test_ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best_monitor,15,plateau/refine,19.6221,0.843353,Best restored research checkpoint used as proposed result.
+No adaptive dark-map loss,no_adaptive_dark_loss_w12m24_20260726,15,30,16.433619815238917,0.7707839608192444,"New 30-epoch CUDA controlled ablation; KD teacher kept, adaptive dark-map loss disabled."
+No teacher KD,no_teacher_kd_w12m24_20260726,15,30,16.41316673242664,0.768560528755188,"New 30-epoch CUDA controlled ablation; teacher KD disabled, GT/dark-map losses kept."

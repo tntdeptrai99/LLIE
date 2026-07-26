@@ -1,0 +1,25 @@
+{
+  "seed": 42,
+  "epochs": 2,
+  "batch_size": 4,
+  "image_size": 96,
+  "lr": 0.001,
+  "train_limit": 16,
+  "val_limit": 8,
+  "train_splits": [
+    "splits\\lol_train.txt",
+    "splits\\lolv2_real_train.txt"
+  ],
+  "val_splits": [
+    "splits\\lol_val.txt",
+    "splits\\lolv2_real_val.txt"
+  ],
+  "loss_profile": "darkmap",
+  "ssim_weight": 0.1,
+  "edge_weight": 0.02,
+  "chroma_weight": 0.02,
+  "adaptive_dark_weight": 0.04,
+  "adaptive_dark_base": 0.2,
+  "adaptive_dark_gain": 1.2,
+  "adaptive_dark_gamma": 1.2
+}
