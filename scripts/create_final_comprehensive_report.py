@@ -18,21 +18,22 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 DATE = "20260726"
+NEW_DATE = "20260807"
 
-OUT_DIR = ROOT / "reports" / "benchmarks" / f"final_comprehensive_{DATE}"
-FIG_DIR = ROOT / "reports" / "figures" / f"final_comprehensive_{DATE}"
-OUT_DOCX = OUT_DIR / f"bao_cao_hoan_chinh_darkghost_espnet_train_pc_board_{DATE}.docx"
-OUT_MD = OUT_DIR / f"bao_cao_hoan_chinh_darkghost_espnet_train_pc_board_{DATE}.md"
+OUT_DIR = ROOT / "reports" / "benchmarks" / f"final_comprehensive_{NEW_DATE}"
+FIG_DIR = ROOT / "reports" / "figures" / f"final_comprehensive_{NEW_DATE}"
+OUT_DOCX = OUT_DIR / f"bao_cao_hoan_chinh_darkghost_espnet_train_pc_board_{NEW_DATE}_v2.docx"
+OUT_MD = OUT_DIR / f"bao_cao_hoan_chinh_darkghost_espnet_train_pc_board_{NEW_DATE}_v2.md"
 
 METRICS = ROOT / "reports" / "metrics"
 CURRENT_MODEL = ROOT / "reports" / "benchmarks" / f"current_model_{DATE}"
 CURRENT_PIPE = ROOT / "reports" / "benchmarks" / f"current_pipeline_{DATE}"
 CURRENT_REAL_FIG = ROOT / "reports" / "figures" / f"current_pipeline_{DATE}" / "real_camera_visual"
 METHOD_FIG = ROOT / "reports" / "figures" / f"darkghost_espnet_{DATE}" / "darkghost_espnet_training_deployment_framework.png"
-PAPER_FIG = ROOT / "reports" / "figures" / f"paper_style_{DATE}"
+PAPER_FIG = ROOT / "reports" / "figures" / f"paper_style_{NEW_DATE}"
 COMP_FIG = ROOT / "reports" / "figures" / f"component_ablation_{DATE}" / "component_ablation_effect.png"
 ARCH_FIG = ROOT / "reports" / "figures" / f"architecture_ablation_{DATE}" / "architecture_cost_comparison.png"
-BEST_VIS_DIR = ROOT / "reports" / "figures" / "ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best_monitor"
+BEST_VIS_DIR = ROOT / "reports" / "figures" / "optuna_best_300e"
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -62,12 +63,11 @@ def kib(value: int | float) -> str:
 
 def selected_research_rows() -> list[dict[str, str]]:
     names = [
-        ("Manual weights W12/M24", "ghost_esp_dark_w12_m24_gain3_res035_96_best"),
-        ("Optuna trial011", "ghost_esp_dark_w12_m24_gain3_res035_optuna_trial011_best"),
-        ("Trial011 long80 best-SSIM", "ghost_esp_dark_w12_m24_gain3_res035_trial011_long80_best_ssim"),
-        ("Plateau score best", "ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best"),
-        ("Plateau score best-monitor", "ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best_monitor"),
-        ("Plateau score best-SSIM", "ghost_esp_dark_w12_m24_gain3_res035_plateau_score_best_ssim"),
+        ("MAE Baseline 300e", "mae_baseline_300e"),
+        ("Base Model 300e", "base_model_300e"),
+        ("No Dark-Map 300e", "no_dark_300e"),
+        ("No Teacher KD 300e", "no_teacher_300e"),
+        ("Optuna Best 300e", "optuna_best_300e"),
     ]
     rows: list[dict[str, str]] = []
     for label, slug in names:
@@ -261,7 +261,7 @@ def add_title(doc: Document) -> None:
     r2.font.color.rgb = RGBColor(80, 80, 80)
     p3 = doc.add_paragraph()
     p3.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p3.add_run(f"Ngày tạo: 26/07/2026 | Artifact root: {ROOT}")
+    p3.add_run(f"Ngày tạo: 07/08/2026 | Artifact root: {ROOT}")
     doc.add_paragraph()
 
 
@@ -282,11 +282,11 @@ def write_markdown(data: dict, best_contact: Path | None) -> None:
     lines = [
         "# DarkGhost-ESPNet: báo cáo tổng hợp train - PC - board",
         "",
-        "Báo cáo này chỉ dùng artifact có sẵn trong project tại thời điểm 26/07/2026.",
+        "Báo cáo này chỉ dùng artifact có sẵn trong project tại thời điểm 07/08/2026 (300 epochs).",
         "",
         "## Kết quả chính",
         "",
-        "- Best research checkpoint: `plateau_score_best_monitor`, PSNR 19.6221, SSIM 0.843353 trên `splits/lol_test.txt` (15 ảnh).",
+        "- Best research checkpoint: `optuna_best_300e` (cập nhật sau khi đánh giá).",
         "- Current deployed ONNX: `stm32/onnx/ghost_esp_dark_w12_m24_enhanced_rgb_u8out_tail_simplified_nchw.onnx`.",
         "- PC-board equivalence: layout `raw_nchw`, exact 98.09%, MAE lượng tử 0.022/255, cosine 1.000000.",
         "- Board pipeline hiện tại: inference mean 170.3256 ms, total mean 191.5581 ms, FPS mean 4.9070.",
@@ -351,7 +351,7 @@ def create_docx() -> None:
     add_note(
         doc,
         "Kết luận",
-        "Checkpoint tốt nhất theo artifact hiện có là plateau_score_best_monitor: PSNR 19.6221, SSIM 0.843353 trên 15 ảnh LOL test. Đây là số nên dùng làm kết quả research chính, không phải số từ ONNX deploy hiện tại.",
+        "Checkpoint tốt nhất được chạy lại lên 300 epochs là Optuna Best 300e. Đây là số nên dùng làm kết quả research chính thống để đảm bảo tính đồng bộ công bằng.",
     )
     add_figure(doc, best_contact, "Hình 2. Contact sheet các mẫu đánh giá của best research checkpoint.", width=6.5)
 

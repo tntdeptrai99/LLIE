@@ -134,11 +134,12 @@ def build_model(
     raise ValueError(f"Unsupported model variant: {model_variant}")
 
 
-def load_pretrained(model: torch.nn.Module, checkpoint_path: Path, device: torch.device) -> None:
+def load_pretrained(model: torch.nn.Module, checkpoint_path: Path, device: torch.device) -> int:
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
     state_dict = checkpoint["model"] if isinstance(checkpoint, dict) and "model" in checkpoint else checkpoint
     model.load_state_dict(state_dict, strict=False)
     print(f"loaded_pretrained={checkpoint_path}")
+    return checkpoint.get("epoch", 0) if isinstance(checkpoint, dict) else 0
 
 
 def main() -> None:
@@ -189,6 +190,7 @@ def main() -> None:
     parser.add_argument("--adaptive-dark-gamma", type=float, default=1.0)
     parser.add_argument("--adaptive-bright-gamma", type=float, default=1.0)
     parser.add_argument("--adaptive-bright-target", type=str, default="low", choices=["low", "target"])
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
     set_seed(args.seed)
@@ -246,8 +248,11 @@ def main() -> None:
         args.base_channels,
         args.mid_channels,
     ).to(device)
+    start_epoch = 1
     if args.pretrained is not None:
-        load_pretrained(model, args.pretrained, device)
+        loaded_epoch = load_pretrained(model, args.pretrained, device)
+        if args.resume:
+            start_epoch = loaded_epoch + 1
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     charbonnier_loss = CharbonnierLoss()
     edge_loss = EdgeLoss().to(device)
@@ -259,14 +264,16 @@ def main() -> None:
     log_path = args.out_dir / "train_log.csv"
 
     print(f"device={device} train={len(train_ds)} val={len(val_ds)}")
-    with log_path.open("w", newline="", encoding="utf-8") as f:
+    mode = "a" if args.resume and log_path.exists() else "w"
+    with log_path.open(mode, newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
             f, fieldnames=["epoch", "train_loss", "val_loss", "val_psnr", "val_ssim"]
         )
-        writer.writeheader()
+        if mode == "w":
+            writer.writeheader()
         best_psnr = -1.0
         best_ssim = -1.0
-        for epoch in range(1, args.epochs + 1):
+        for epoch in range(start_epoch, args.epochs + 1):
             model.train()
             train_losses: list[float] = []
             for batch in train_loader:

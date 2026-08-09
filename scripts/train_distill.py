@@ -101,11 +101,12 @@ def build_student(
     raise ValueError(f"Unsupported student variant for KD: {variant}")
 
 
-def load_pretrained(model: torch.nn.Module, checkpoint_path: Path, device: torch.device) -> None:
+def load_pretrained(model: torch.nn.Module, checkpoint_path: Path, device: torch.device) -> int:
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
     state_dict = checkpoint["model"] if isinstance(checkpoint, dict) and "model" in checkpoint else checkpoint
     model.load_state_dict(state_dict, strict=False)
     print(f"loaded_pretrained={checkpoint_path}")
+    return checkpoint.get("epoch", 0) if isinstance(checkpoint, dict) else 0
 
 
 @torch.no_grad()
@@ -184,6 +185,7 @@ def main() -> None:
     parser.add_argument("--early-stop-patience", type=int, default=0)
     parser.add_argument("--early-stop-min-delta", type=float, default=0.0)
     parser.add_argument("--score-ssim-scale", type=float, default=5.0)
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
     set_seed(args.seed)
@@ -227,8 +229,12 @@ def main() -> None:
         args.base_channels,
         args.mid_channels,
     ).to(device)
+    
+    start_epoch = 1
     if args.pretrained is not None:
-        load_pretrained(model, args.pretrained, device)
+        loaded_epoch = load_pretrained(model, args.pretrained, device)
+        if args.resume:
+            start_epoch = loaded_epoch + 1
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     charbonnier = CharbonnierLoss()
@@ -250,7 +256,8 @@ def main() -> None:
         return float("-inf")
 
     print(f"device={device} train={len(train_ds)} val={len(val_ds)}")
-    with log_path.open("w", newline="", encoding="utf-8") as f:
+    mode = "a" if args.resume and log_path.exists() else "w"
+    with log_path.open(mode, newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
             f,
             fieldnames=[
@@ -263,12 +270,14 @@ def main() -> None:
                 "teacher_ssim",
             ],
         )
-        writer.writeheader()
+        if mode == "w":
+            writer.writeheader()
+            
         best_psnr = -1.0
         best_ssim = -1.0
         best_monitor = -1.0
         epochs_without_improvement = 0
-        for epoch in range(1, args.epochs + 1):
+        for epoch in range(start_epoch, args.epochs + 1):
             model.train()
             train_losses: list[float] = []
             for batch in train_loader:

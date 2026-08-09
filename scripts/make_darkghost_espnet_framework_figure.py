@@ -50,6 +50,9 @@ def dark_map(image: Image.Image) -> Image.Image:
 
 
 def run_onnx(image: Image.Image) -> Image.Image:
+    if not ONNX_PATH.exists():
+        # Fallback if model not available during execution
+        return image.copy()
     sess = ort.InferenceSession(str(ONNX_PATH), providers=["CPUExecutionProvider"])
     arr = np.asarray(image).astype(np.float32) / 255.0
     x = np.transpose(arr, (2, 0, 1))[None, ...]
@@ -97,18 +100,22 @@ def paste_thumb(canvas: Image.Image, draw: ImageDraw.ImageDraw, image: Image.Ima
 
 def draw_student_block(draw: ImageDraw.ImageDraw):
     rounded(draw, (195, 112, 510, 278), fill=(239, 250, 235), outline=(75, 145, 66), width=3)
-    centered_text(draw, (210, 118, 495, 145), "STUDENT: DarkGhost-ESPNet", FONT_B, (42, 108, 36))
-    xs = [230, 310, 390, 465]
-    hs = [82, 58, 58, 82]
-    for i, (x, h) in enumerate(zip(xs, hs)):
-        y = 178 - h // 2
-        draw.rectangle((x, y, x + 26, y + h), fill=(166, 220, 145), outline=(60, 130, 54), width=2)
-        draw.polygon([(x + 26, y), (x + 39, y - 9), (x + 39, y + h - 9), (x + 26, y + h)], fill=(191, 235, 173), outline=(60, 130, 54))
-        centered_text(draw, (x - 8, 232, x + 58, 254), f"Stage {i+1}" if i < 3 else "Head", FONT_XS, (45, 100, 45))
+    centered_text(draw, (195, 120, 510, 145), "STUDENT: DarkGhost-ESPNet", FONT_B, (42, 108, 36))
+    
+    xs = [215, 285, 355, 425]
+    w = 50
+    stage_names = ["Stage 1", "Stage 2", "Stage 3", "Head"]
+    
+    for i, x in enumerate(xs):
+        stage_h = 60 if i in (1, 2) else 80
+        y = 200 - stage_h // 2
+        rounded(draw, (x, y, x + w, y + stage_h), fill=(166, 220, 145), outline=(60, 130, 54), width=2, radius=6)
+        centered_text(draw, (x, y + stage_h + 6, x + w, y + stage_h + 20), stage_names[i], FONT_XS, (45, 100, 45))
         if i < len(xs) - 1:
-            arrow(draw, (x + 48, 178), (xs[i + 1] - 6, 178), fill=(60, 110, 60), width=2)
-    rounded(draw, (330, 292, 500, 374), fill=(247, 253, 244), outline=(92, 160, 82), width=2)
-    centered_text(draw, (340, 302, 490, 364), "Ghost-ESP\nbottleneck\nfeature reuse", FONT_S, (55, 120, 55))
+            arrow(draw, (x + w + 6, 200), (xs[i + 1] - 4, 200), fill=(60, 110, 60), width=2)
+            
+    rounded(draw, (330, 292, 500, 370), fill=(247, 253, 244), outline=(92, 160, 82), width=2)
+    centered_text(draw, (330, 292, 500, 370), "Ghost-ESP\nbottleneck\nfeature reuse", FONT_S, (55, 120, 55))
 
 
 def main() -> None:
@@ -128,19 +135,28 @@ def main() -> None:
 
     paste_thumb(canvas, draw, inp, 54, 150, "INPUT", "96x96")
     arrow(draw, (150, 196), (190, 196))
+    
     draw_student_block(draw)
+    
     arrow(draw, (510, 196), (555, 196))
     paste_thumb(canvas, draw, student, 560, 150, "OUTPUT (Student)", "enhanced RGB")
 
     paste_thumb(canvas, draw, dm, 112, 322, "DARK GUIDANCE", "dark-map 96x96")
-    arrow(draw, (204, 362), (312, 294), fill=(225, 130, 35), width=3)
-    arrow(draw, (204, 362), (314, 225), fill=(225, 130, 35), width=3)
+    
+    # Cleaner arrows for dark guidance
+    arrow(draw, (180, 368), (326, 331), fill=(225, 130, 35), width=3)
+    arrow(draw, (180, 368), (280, 242), fill=(225, 130, 35), width=3)
 
+    # Teacher block
     rounded(draw, (755, 112, 928, 240), fill=(238, 245, 255), outline=(70, 112, 190), width=3)
-    centered_text(draw, (765, 120, 918, 148), "KNOWLEDGE TEACHER", FONT_B, (40, 80, 175))
-    for x, hh in [(790, 56), (827, 76), (866, 60)]:
-        draw.rectangle((x, 170 - hh // 2, x + 26, 170 + hh // 2), fill=(156, 190, 242), outline=(60, 95, 175), width=2)
-    centered_text(draw, (765, 205, 918, 230), "VD/Retinexformer\ntraining only", FONT_XS, (40, 80, 175))
+    centered_text(draw, (755, 120, 928, 145), "KNOWLEDGE TEACHER", FONT_B, (40, 80, 175))
+    txs = [785, 825, 865]
+    ths = [55, 75, 55]
+    for x, th in zip(txs, ths):
+        y = 185 - th // 2
+        rounded(draw, (x, y, x + 30, y + th), fill=(156, 190, 242), outline=(60, 95, 175), width=2, radius=4)
+    centered_text(draw, (755, 212, 928, 236), "VD/Retinexformer\ntraining only", FONT_XS, (40, 80, 175))
+    
     arrow(draw, (928, 176), (968, 176))
     paste_thumb(canvas, draw, gt, 978, 130, "OUTPUT (Teacher)", "reference signal")
 

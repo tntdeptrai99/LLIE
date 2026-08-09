@@ -1,0 +1,4 @@
+name=lol_test
+count=15
+psnr=17.7734
+ssim=0.778632

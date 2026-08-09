@@ -1,5 +1,0 @@
-architecture,epochs_ran,best_epoch,best_psnr,best_ssim,best_mae,last_epoch,last_psnr,last_ssim,last_mae,best_checkpoint,last_checkpoint,status
-GhostSep,30,27,12.852523,0.61633568,0.18661786,30,12.843621,0.62564279,0.18675489,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\GhostSep\best.pt,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\GhostSep\last.pt,complete_or_early_stop
-Conv2D,35,20,12.848709,0.60205039,0.18744825,35,12.831545,0.62879783,0.18744920,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\Conv2D\best.pt,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\Conv2D\last.pt,complete_or_early_stop
-Separable,30,24,12.847826,0.62089501,0.18668009,30,12.845273,0.61208804,0.18707671,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\Separable\best.pt,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\Separable\last.pt,complete_or_early_stop
-Ghost-ESP,4,4,10.913780,0.50830974,0.23854107,4,10.913780,0.50830974,0.23854107,D:\LLIE_Project\experiments\architecture_ablation\saturation_20260726\Ghost-ESP\best.pt,,interrupted_partial
